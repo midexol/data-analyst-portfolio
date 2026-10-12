@@ -1,4 +1,2 @@
 pandas==3.0.5
 matplotlib==3.11.2
-pyarrow>=17
-openpyxl>=3.1
