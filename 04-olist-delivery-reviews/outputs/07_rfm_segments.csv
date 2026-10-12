@@ -1,0 +1,7 @@
+segment,customers,pct_customers,revenue_brl,pct_revenue,avg_spend_brl,avg_recency_days
+"1 · Loyal (repeat, recent)",1534,1.6,483313.0,3.1,315.0,113.0
+2 · Lapsed repeat buyers,1255,1.3,377220.0,2.5,301.0,351.0
+3 · Recent big spenders,10850,11.7,4223663.0,27.5,389.0,112.0
+4 · Lapsed big spenders,10661,11.5,4177954.0,27.2,392.0,364.0
+5 · Recent one-timers,34164,36.7,3054397.0,19.9,89.0,112.0
+6 · Lapsed one-timers,34632,37.2,3055194.0,19.9,88.0,363.0

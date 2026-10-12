@@ -1,0 +1,26 @@
+{
+  "scope": {
+    "orders": 96203,
+    "customers": 93096,
+    "pct_late": 6.8,
+    "avg_delivery_days": 12.5,
+    "median_delivery_days": 10.0,
+    "first_purchase": "2017-01-05T00:00:00",
+    "last_purchase": "2018-08-29T00:00:00"
+  },
+  "tests": {
+    "reviews_mann_whitney": {
+      "n_on_time": 89672,
+      "n_late": 6531,
+      "mean_on_time": 4.28,
+      "mean_late": 2.26,
+      "U": 479960679.0,
+      "p_value": 0.0,
+      "rank_biserial": 0.639
+    },
+    "repeat_chi_square": {
+      "chi2": 9.06,
+      "p_value": 0.002606162017618564
+    }
+  }
+}
