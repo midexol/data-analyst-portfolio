@@ -1,0 +1,9 @@
+# raw data is downloaded by each project's scripts, not committed
+*/data/raw/*
+!*/data/raw/.gitkeep
+02-polymarket-calibration/data/cache/
+*/data/*.parquet
+__pycache__/
+.ipynb_checkpoints/
+.venv/
+.DS_Store
