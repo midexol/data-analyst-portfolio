@@ -4,7 +4,7 @@ How food prices in Nigeria moved from 2019 to mid-2026: how high they went, what
 
 **TL;DR:** food prices roughly **2.5x'd** between January 2023 and mid-2024, and year-on-year food inflation peaked at **112% in June 2024**. Since August 2025 prices have actually been falling compared to a year earlier. But not everything came down: grains and beans are about **35% below their peak**, while meat, eggs and milk are only **4% below** theirs. Right now the same basic plate (1 kg each of rice, beans and garri) costs **25% more in the South South than in the North West**.
 
-Tools: Python (pandas, matplotlib)
+Tools: SQL (DuckDB), Python (pandas, matplotlib)
 Data: World Bank, [Monthly food price estimates by product and market, Nigeria](https://microdata.worldbank.org/catalog/4503), 66 markets, monthly, I used Jan 2019 to Jul 2026
 
 ## Why I looked at this
@@ -20,6 +20,17 @@ This is the World Bank's Real-Time Food Prices dataset for Nigeria. It's built o
 - **Units vary by food.** Beans are priced per 2.5 kg, eggs per 30, milk per 400 g, and so on. For the plate cost I converted everything to per kg.
 - **Coverage leans north-east.** 53 of the 66 markets are in Borno, Yobe and Adamawa, probably because a lot of this monitoring is for humanitarian work there. Lagos, Oyo and Abia only have one market each, so I compare regions using the zone averages instead of single states.
 - The file runs to August 2026, but the last month with survey data is July 2026, so August is dropped.
+
+## How I did it
+
+All the analysis is in SQL, run with DuckDB straight on the CSV. Python just runs the queries and draws the charts.
+
+1. Clean the raw file into tables I can work with: tag which rows are real markets, convert the plate to per kg, count how many prices were actually collected, and unpivot the national series into one row per month per food ([`01_staging.sql`](sql/01_staging.sql))
+2. Food price index and year-on-year inflation ([`02`](sql/02_national_index.sql))
+3. Each food's price in Jan 2023, its peak and where it is now, using `arg_max` to find the peak month ([`03`](sql/03_commodity_change.sql))
+4. Grains vs protein, both indexed to Jan 2023 = 100 ([`04`](sql/04_group_index.sql))
+5. The plate cost by geopolitical zone and by state ([`05`](sql/05_plate_by_zone.sql), [`06`](sql/06_plate_by_state.sql))
+6. How much of the data was actually collected vs estimated, by year ([`07`](sql/07_observed_share.sql))
 
 ## What I found
 

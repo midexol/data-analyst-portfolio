@@ -8,7 +8,7 @@ Hey, I'm Mide. I'm a CS student at FUTA and this is where I keep my data analysi
 | --- | --- | --- | --- |
 | [Late Parcels, Low Stars](04-olist-delivery-reviews/) | How much do late deliveries hurt reviews and repeat orders? | SQL (DuckDB), Python, SciPy | Done |
 | [Do Prediction Markets Know?](02-polymarket-calibration/) | When Polymarket says 70%, does it actually happen 70% of the time? | Python, REST APIs | Code ready, haven't run it yet |
-| [Naira on the Plate](01-nigeria-food-prices/) | How high did food prices go in Nigeria, what came back down, and where is it most expensive now? | Python, pandas | Done |
+| [Naira on the Plate](01-nigeria-food-prices/) | How high did food prices go in Nigeria, what came back down, and where is it most expensive now? | SQL (DuckDB), Python | Done |
 | [Remittance Rails](03-stellar-remittance/) | How fast is USDC payment activity growing on Stellar? | BigQuery SQL | Queries ready, need to run on my GCP |
 
 ## Finished projects
