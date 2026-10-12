@@ -1,0 +1,17 @@
+food,column,price_jan_2023,peak_price,peak_month,price_jul_2026,rise_to_peak_pct,peak_to_now_pct,jan_2023_to_now_pct
+Beans,beans,1078,4597,2024-09,2277,326,-50,111
+Maize,maize_fao,425,1524,2025-07,830,259,-46,95
+Sorghum,sorghum_fao,288,954,2024-08,524,231,-45,82
+Millet,millet,924,2681,2024-08,1568,190,-42,70
+Garri,gari_fao,342,1300,2025-03,827,280,-36,141
+Fish,fish,369,1679,2025-12,1130,355,-33,206
+Maize flour,maize_flour,793,2334,2024-07,1554,194,-33,96
+Rice (local measure),rice,2305,6946,2024-11,5081,201,-27,120
+Rice,rice_fao,832,2879,2025-03,2200,246,-24,164
+Groundnuts,groundnuts,1169,3872,2025-01,3127,231,-19,168
+Onions,onions,155,513,2025-04,444,231,-14,186
+Yam,yam,852,3157,2025-03,2849,271,-10,234
+Milk,milk,1998,4139,2025-06,3832,107,-7,92
+Eggs (30),eggs,2068,6452,2025-07,5987,212,-7,189
+Beef,meat_beef,1970,6535,2025-07,6361,232,-3,223
+Goat meat,meat_goat,1885,5573,2025-07,5444,196,-2,189

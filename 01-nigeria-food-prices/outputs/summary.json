@@ -1,0 +1,27 @@
+{
+  "source_file": "NGA_RTFP_mkt_2007_2026-08-03.csv",
+  "months": [
+    "2019-01",
+    "2026-07"
+  ],
+  "real_markets": 66,
+  "peak_yoy_inflation_pct": 111.7,
+  "peak_yoy_month": "2024-06",
+  "latest_yoy_inflation_pct": -4.9,
+  "first_negative_yoy_month": "2025-08",
+  "index_jul_2026_vs_jan_2023": 2.52,
+  "grains_index_peak": 317.7,
+  "grains_index_peak_month": "2024-09",
+  "grains_index_now": 208.5,
+  "protein_index_peak": 285.8,
+  "protein_index_peak_month": "2025-07",
+  "protein_index_now": 273.2,
+  "plate_jul_2026_by_zone": {
+    "South South": 4011.0,
+    "South East": 3971.0,
+    "North Central": 3742.0,
+    "South West": 3717.0,
+    "North West": 3208.0
+  },
+  "pct_prices_observed_2019_2026": 24.2
+}
