@@ -1,6 +1,6 @@
-zone,plate_2023_01,plate_2025_03,plate_2026_07
-South South,1611.0,5300.0,4011.0
-South East,1700.0,5411.0,3971.0
-North Central,1427.0,5219.0,3742.0
-South West,1491.0,4817.0,3717.0
-North West,1440.0,5449.0,3208.0
+zone,plate_jan_2023,peak_month,plate_peak,plate_jul_2026
+South South,1611,2025-03,5300,4011
+South East,1700,2025-03,5411,3971
+North Central,1427,2025-03,5219,3742
+South West,1491,2025-03,4817,3717
+North West,1440,2025-03,5449,3208
