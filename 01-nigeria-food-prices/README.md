@@ -4,7 +4,7 @@ How food prices in Nigeria moved from 2019 to mid-2026: how high they went, what
 
 **TL;DR:** food prices roughly **2.5x'd** between January 2023 and mid-2024, and year-on-year food inflation peaked at **112% in June 2024**. Since August 2025 prices have actually been falling compared to a year earlier. But not everything came down: grains and beans are about **35% below their peak**, while meat, eggs and milk are only **4% below** theirs. Right now the same basic plate (1 kg each of rice, beans and garri) costs **25% more in the South South than in the North West**.
 
-Tools: SQL (DuckDB), Python (pandas, matplotlib)
+Tools: SQL (DuckDB), Excel, Python (pandas, matplotlib)
 Data: World Bank, [Monthly food price estimates by product and market, Nigeria](https://microdata.worldbank.org/catalog/4503), 66 markets, monthly, I used Jan 2019 to Jul 2026
 
 ## Why I looked at this
@@ -31,6 +31,16 @@ All the analysis is in SQL, run with DuckDB straight on the CSV. Python just run
 4. Grains vs protein, both indexed to Jan 2023 = 100 ([`04`](sql/04_group_index.sql))
 5. The plate cost by geopolitical zone and by state ([`05`](sql/05_plate_by_zone.sql), [`06`](sql/06_plate_by_state.sql))
 6. How much of the data was actually collected vs estimated, by year ([`07`](sql/07_observed_share.sql))
+
+## The Excel version
+
+If you'd rather click around than read SQL, [`excel/naira_on_the_plate.xlsx`](excel/naira_on_the_plate.xlsx) has the same analysis as a workbook:
+
+- **Pick a food:** choose any food from the dropdown and the stats and chart update to show its price since 2019
+- **Peak to now:** each food's Jan 2023 price, its peak, and how far it has fallen, with a colour scale on the drop
+- **By zone:** the rice + beans + garri plate cost for each zone, with a chart
+
+Only the two data sheets (Prices and Zones) have typed-in numbers. Everything else is a formula (`INDEX`/`MATCH`, `MAX`, `SUMIFS`), so you can trace any number back to the data. I checked every number in the workbook against the SQL outputs and they match.
 
 ## What I found
 
@@ -106,6 +116,7 @@ State-level numbers are in [`outputs/plate_by_state.csv`](outputs/plate_by_state
 ```bash
 pip install -r requirements.txt
 python src/analyze.py
+python src/build_excel.py   # rebuilds the Excel workbook
 ```
 
 Every number in this README comes from the files in [`outputs/`](outputs/).

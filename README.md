@@ -8,7 +8,7 @@ Hey, I'm Mide. I'm a CS student at FUTA and this is where I keep my data analysi
 | --- | --- | --- | --- |
 | [Late Parcels, Low Stars](04-olist-delivery-reviews/) | How much do late deliveries hurt reviews and repeat orders? | SQL (DuckDB), Python, SciPy | Done |
 | [Do Prediction Markets Know?](02-polymarket-calibration/) | When Polymarket says 70%, does it actually happen 70% of the time? | Python, REST APIs | Code ready, haven't run it yet |
-| [Naira on the Plate](01-nigeria-food-prices/) | How high did food prices go in Nigeria, what came back down, and where is it most expensive now? | SQL (DuckDB), Python | Done |
+| [Naira on the Plate](01-nigeria-food-prices/) | How high did food prices go in Nigeria, what came back down, and where is it most expensive now? | SQL (DuckDB), Excel, Python | Done |
 | [Remittance Rails](03-stellar-remittance/) | How fast is USDC payment activity growing on Stellar? | BigQuery SQL | Queries ready, need to run on my GCP |
 
 ## Finished projects
@@ -27,7 +27,7 @@ Using the World Bank's food price data for 66 Nigerian markets, I tracked prices
 
 ![Grains vs protein](01-nigeria-food-prices/charts/grains_vs_protein.png)
 
-Full write-up is [here](01-nigeria-food-prices/).
+Full write-up is [here](01-nigeria-food-prices/). There's also an [Excel version](01-nigeria-food-prices/excel/naira_on_the_plate.xlsx) with a food picker and charts.
 
 ## How the folders work
 
