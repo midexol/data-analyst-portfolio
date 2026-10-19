@@ -1,10 +1,12 @@
 # Do Prediction Markets Know?
 
-When Polymarket prices something at 70%, does it actually happen about 70% of the time? And do the prices get more accurate as the resolution date gets closer?
+On Polymarket, people bet real money on things like elections, football matches and crypto prices. The price of a bet works like a forecast. If "yes" costs 70 cents, the crowd is saying there's a 70% chance it happens.
 
-I've built prediction market trading bots before, so I wanted to test how good the "wisdom of the crowd" really is.
+So here's the question: when the crowd says 70%, does it actually happen about 70% of the time? And does the crowd get more accurate as the big day gets closer?
 
-**Status:** the pipeline is written and tested, but I haven't done the full data pull yet. Findings coming soon.
+I've built trading bots for these markets, so I've always wanted to know how much to trust the price.
+
+**Status:** the code is written and tested, but I haven't run the full data pull yet. Findings coming soon.
 
 Tools: Python (requests, pandas, NumPy, matplotlib)
 
@@ -22,8 +24,8 @@ One nice detail: for a resolved market, the last point in the price history is t
 1. Pull ~150 resolved yes/no markets each from politics, sports, crypto and economy
 2. Skip anything that was voided or didn't resolve cleanly
 3. Grab the YES price 30, 7 and 1 day before resolution
-4. Calibration curve: bucket the prices into 10 bins and compare the average price in each bin to how often YES actually happened (with 95% confidence intervals)
-5. Brier score by horizon, category and volume. Lower is better, and always guessing 50% scores 0.25
+4. Group the prices into 10 buckets (0 to 10%, 10 to 20%, and so on) and check how often "yes" actually happened in each one. If the market is honest, the 70% bucket should come true about 70% of the time
+5. Score how close the prices were overall (the Brier score), split by how far out, by topic, and by how much money was traded. Lower is better. Guessing 50% every time scores 0.25, so anything below that beats a coin flip
 
 ## Running it
 
@@ -35,7 +37,7 @@ python src/analyze.py
 
 Results go to `outputs/` and the calibration chart to `charts/calibration.png`.
 
-## Things to keep in mind
+## What this won't tell you
 
 - A market can have more than one tag
 - Leaving out voided markets slightly favours markets with clean outcomes

@@ -1,44 +1,21 @@
 # Late Parcels, Low Stars
 
-Analysing how late deliveries affect reviews and repeat purchases on Olist, a Brazilian e-commerce marketplace.
+We've all waited on a parcel that said "arriving today" and didn't. You check the tracking, you check it again, and by the time it shows up you're not in a generous mood.
 
-**TL;DR:** late orders average **2.26 stars** compared to **4.28** for on-time ones. Customers whose first order came late were about **25% less likely** to buy again. And it's not spread evenly: **98 of 2,945 sellers** account for half of all late orders.
+I wanted to know what that moment costs the store. So I went through **96,203** orders from Olist, a Brazilian online marketplace, and asked three things: how much does a late delivery hurt the review, does it cost the next sale too, and where do late deliveries come from?
 
-Tools: SQL (DuckDB), Python (pandas, SciPy, matplotlib)
-Data: [Olist Brazilian E-Commerce dataset](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce), 96,203 delivered orders from Jan 2017 to Aug 2018
+**The short version:**
 
-## Why I looked at this
+- On-time orders average **4.28** stars. Late ones average **2.26**.
+- First-time buyers whose order came late were **25% less likely** to order again.
+- The problem is concentrated. Just **98 of 2,945** sellers cause half of all late orders.
 
-Every marketplace promises a delivery date at checkout. I wanted to put a number on what it costs when that promise gets broken, and figure out whether the problem is everywhere or concentrated in a few places an ops team could actually fix.
-
-So three questions:
-
-1. How much does a late delivery hurt the review score?
-2. Does it hurt repeat business too?
-3. Where do the late deliveries come from?
-
-## Data and setup
-
-The dataset has 9 tables. I used four of them: orders (dates and status), reviews (1-5 stars), customers (state, plus a unique ID that follows a person across orders) and order items (which seller shipped what).
-
-A few decisions worth knowing about:
-
-- I only kept **delivered** orders placed between Jan 2017 and Aug 2018. The months before and after that only have a handful of orders.
-- An order counts as **late** if it arrived on a later calendar day than the estimated date shown at checkout.
-- Some orders have more than one review, so I kept the most recent one.
-
-## How I did it
-
-1. Built a clean one-row-per-order table in SQL ([`01_staging.sql`](sql/01_staging.sql))
-2. Grouped orders by how late they were and compared review scores ([`02`](sql/02_delivery_vs_reviews.sql))
-3. Looked at late rates by month, by state and by seller ([`03`](sql/03_late_rate_by_month.sql), [`04`](sql/04_late_rate_by_state.sql), [`05`](sql/05_seller_late_rates.sql))
-4. Compared repeat purchase rates for customers whose first order was late vs on time ([`06`](sql/06_repeat_purchase.sql))
-5. Did an RFM segmentation to see which customers bring in the money ([`07`](sql/07_rfm_segments.sql))
-6. Ran a Mann-Whitney U test on the review scores and a chi-square test on the repeat rates ([`run_analysis.py`](src/run_analysis.py))
+**Tools:** SQL (DuckDB), Python (pandas, SciPy, matplotlib)
+**Data:** [Olist Brazilian E-Commerce dataset](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce), 96,203 delivered orders from January 2017 to August 2018
 
 ## What I found
 
-### Reviews drop off fast
+### People forgive a lot, but not lateness
 
 ![Average review by delivery delay](charts/reviews_by_delay.png)
 
@@ -50,47 +27,68 @@ A few decisions worth knowing about:
 | 8-14 days late | 1,478 | 1.67 | 80.4% | 6.8% |
 | 15+ days late | 1,382 | 1.72 | 78.5% | 7.1% |
 
-Even 1-3 days late more than triples the share of 1-2 star reviews. Once you're more than a week late, about 4 in 5 reviews are 1 or 2 stars. The difference between on-time and late is statistically significant (Mann-Whitney U, p < 0.001) and the effect is big (rank-biserial correlation of 0.64).
+It doesn't take much. Even one to three days late more than triples the share of 1 and 2 star reviews. Once an order is more than a week late, about 4 in 5 reviews are 1 or 2 stars.
 
-### Late first orders mean fewer repeat customers
+To make sure this wasn't luck, I ran a Mann-Whitney U test on the review scores. The gap between on-time and late orders is real (p < 0.001) and large (rank-biserial correlation of 0.64).
+
+### A late first order costs the next sale too
 
 ![Repeat purchase by first experience](charts/repeat_by_first_experience.png)
 
-I only included customers whose first order was before March 2018, so everyone had at least 6 months to come back. 4.04% of customers with an on-time first order bought again, vs 3.02% when the first order was late. That's roughly a 25% relative drop (chi-square = 9.1, p = 0.003).
+I looked at customers whose first order was before March 2018, so everyone had at least six months to come back. When the first order arrived on time, 4.04% of them ordered again. When it was late, only 3.02% did. That's about 25% fewer comebacks (chi-square = 9.1, p = 0.003).
 
-Repeat buying is rare on Olist in general, so the absolute numbers are small. But it stacks on top of the bad review.
+Not many people order twice on Olist anyway, so these are small numbers. But the cost stacks up: a late order loses you the good review and makes the next order less likely.
 
-### It's concentrated in time, place and sellers
+### Late orders come from a few places
 
 ![Late rate by month](charts/late_rate_by_month.png)
 
-- **When:** normally around 3-4% of orders are late. That jumped to 12.4% after Black Friday (Nov 2017), then 14.1% in Feb 2018 and 19.0% in March 2018, before going back to normal in April.
-- **Where:** Rio de Janeiro has 12.8% of all orders but 22.9% of the late ones. Its late rate (12.1%) is 2.7x São Paulo's (4.5%). The Northeast is worst, with Maranhão at 17.5%.
-- **Who:** 98 of 2,945 sellers (3.3%) are responsible for half of all late orders. The full ranking is in [`outputs/05_seller_late_rates.csv`](outputs/05_seller_late_rates.csv).
+- **When:** in a normal month, about 3 to 4% of orders are late. After Black Friday in November 2017 that jumped to 12.4%. It calmed down in January, then spiked again in February 2018 (14.1%) and March 2018 (19.0%) before going back to normal in April.
+- **Where:** Rio de Janeiro has 12.8% of all orders but 22.9% of the late ones. Its late rate (12.1%) is 2.7x São Paulo's (4.5%). The Northeast has it worst, with Maranhão at 17.5%.
+- **Who:** 98 of 2,945 sellers (3.3%) cause half of all late orders. The full list is in [`outputs/05_seller_late_rates.csv`](outputs/05_seller_late_rates.csv).
 
 ![Late rate by state](charts/late_rate_by_state.png)
 
-### A small group brings in most of the revenue
+### A small group brings in most of the money
 
 ![RFM segments](charts/rfm_customers_vs_revenue.png)
 
-The top quarter of customers by spend are 23% of customers but 55% of revenue. Only 2.9% of customers have ordered more than once, so there isn't really a loyal base to protect yet. The bigger opportunity is getting a second order out of first-time big spenders.
+The top quarter of customers by spend make up 23% of customers but bring in 55% of the revenue. Only 2.9% of customers have ever ordered more than once, so there isn't really a loyal crowd to protect yet. The bigger win is getting a second order out of people who spent big the first time.
 
-## What I'd recommend
+## What I'd do
 
-1. **Get the first order right.** Add a 2-3 day buffer to the estimated delivery date for first-time customers. A slightly longer promise costs less than a 1-star review and a customer who never comes back.
-2. **Watch the worst sellers.** Around 100 sellers cause half the late orders. Monthly on-time scorecards for them would go a lot further than trying to fix the whole network.
-3. **Plan for the peaks.** Pad estimates for Rio and the Northeast, and around Black Friday and Feb-Mar, instead of promising the same timeline everywhere.
+The good news is that this is a small, findable problem, not a broken delivery network.
 
-Next thing I'd want to test: whether padding the estimate actually improves reviews (an A/B test on the delivery promise), and how much revenue the lost repeat orders are worth.
+1. **Get the first order right.** Promise first-time buyers a date two or three days later than usual, one you know you can hit. A slightly longer wait costs less than a 1-star review and a customer who never comes back.
+2. **Watch the worst sellers.** About 100 sellers cause half the late orders. A monthly on-time scorecard for them would do more than trying to fix everyone.
+3. **Plan for the busy months.** Give Rio and the Northeast more realistic dates, and pad them around Black Friday and February to March, instead of promising the same timeline everywhere.
 
-## Limitations
+What I'd test next: whether a padded delivery date actually lifts reviews (an A/B test on the promise), and how much money those lost repeat orders are worth.
 
-- The data only has orders that were eventually delivered. Orders still in transit when the data was pulled are missing, so the last few months probably look better than they really were.
-- The repeat purchase result is a correlation. Customers who got late orders might be different in other ways, like where they live.
-- If one order had items from multiple sellers, it counts toward each of them in the seller analysis.
+## How I did it
 
-## Running it yourself
+The dataset has 9 tables. I used four: orders (dates and status), reviews (1 to 5 stars), customers (their state, plus an ID that follows one person across orders) and order items (which seller shipped what).
+
+1. Built one clean row per order in SQL ([`01_staging.sql`](sql/01_staging.sql))
+2. Grouped orders by how late they were and compared reviews ([`02`](sql/02_delivery_vs_reviews.sql))
+3. Looked at late rates by month, by state and by seller ([`03`](sql/03_late_rate_by_month.sql), [`04`](sql/04_late_rate_by_state.sql), [`05`](sql/05_seller_late_rates.sql))
+4. Compared how often customers came back after a late vs on-time first order ([`06`](sql/06_repeat_purchase.sql))
+5. Split customers by how recently, how often and how much they buy (RFM) to see who brings in the money ([`07`](sql/07_rfm_segments.sql))
+6. Ran the significance tests in Python ([`run_analysis.py`](src/run_analysis.py))
+
+A few choices worth knowing about:
+
+- I only kept **delivered** orders placed from January 2017 to August 2018. The months outside that range only have a handful of orders.
+- An order counts as **late** if it arrived on a later day than the date promised at checkout.
+- Some orders have more than one review, so I kept the latest one.
+
+## What this can't tell you
+
+- The data only includes orders that were eventually delivered. Anything still on its way when the data was pulled is missing, so the last few months probably look better than they were.
+- The repeat purchase result shows a link, not proof that lateness caused it. Customers who got late orders might be different in other ways, like where they live.
+- If one order had items from several sellers, it counts toward each of them in the seller numbers.
+
+## Run it yourself
 
 ```bash
 pip install -r requirements.txt
@@ -98,4 +96,4 @@ bash src/get_data.sh
 python src/run_analysis.py
 ```
 
-All the numbers above come from the files in [`outputs/`](outputs/). [`summary.json`](outputs/summary.json) has the headline stats and test results.
+Every number above comes from the files in [`outputs/`](outputs/). [`summary.json`](outputs/summary.json) has the headline numbers and test results.

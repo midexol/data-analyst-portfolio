@@ -1,12 +1,12 @@
 # Remittance Rails
 
-How is USDC payment activity on Stellar growing, how much of it comes from a few big senders, and do new senders keep using it?
+Sending money across borders is still slow and expensive for a lot of people. Stellar is a blockchain built for exactly this, and USDC is a digital dollar that moves on it.
 
-I've been building cross-border payment stuff on Stellar, so I wanted to see what's actually happening on-chain.
+I've been building payment apps on Stellar, so I wanted to see what's really happening on the network. How much USDC is moving each month, and is it growing? Is it a few big senders or lots of everyday people? And when someone sends money for the first time, do they come back?
 
-**Status:** queries are written. I need to run them on my own Google Cloud project since BigQuery bills whoever runs the query.
+**Status:** the queries are written. I still need to run them on my own Google Cloud account, because BigQuery charges whoever runs the query.
 
-Tools: BigQuery SQL (CTEs, window functions, cohort tables), Looker Studio
+Tools: BigQuery SQL, Looker Studio
 
 ## Data
 
