@@ -52,7 +52,6 @@ def summarise(con: duckdb.DuckDBPyConnection, r: dict[str, pd.DataFrame], source
     gi = r["group_index"].set_index("date")
     gi.index = pd.to_datetime(gi.index)
     pz = r["plate_by_zone"].set_index("zone")
-    obs = r["observed_share"].set_index("year")
     peak = ni.yoy_inflation_pct.idxmax()
     markets = con.sql("SELECT count(DISTINCT market) FROM prices WHERE is_real_market").fetchone()[0]
     return {
@@ -72,7 +71,8 @@ def summarise(con: duckdb.DuckDBPyConnection, r: dict[str, pd.DataFrame], source
         "protein_index_now": float(gi.iloc[-1, 1]),
         "plate_peak_month": pz.peak_month.iloc[0],
         "plate_jul_2026_by_zone": pz.plate_jul_2026.to_dict(),
-        "pct_prices_observed_2019_2026": round(float(obs.loc[2019:2026].pct_prices_observed.mean()), 1),
+        "pct_prices_observed_2019_2026": round(float(con.sql(
+            "SELECT 100.0 * avg(foods_observed) / 16 FROM prices WHERE is_real_market").fetchone()[0]), 1),
     }
 
 
