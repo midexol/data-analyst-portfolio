@@ -10,7 +10,7 @@ In January 2023, a 2.5 kg bag of beans cost about **₦1,078**. By September 202
 - Where you live matters. The same basic plate costs **25% more** in the South South than in the North West.
 
 **Tools:** SQL (DuckDB), Excel, Python (pandas, matplotlib)
-**Data:** World Bank, [Monthly food price estimates by product and market, Nigeria](https://microdata.worldbank.org/catalog/4503). 66 markets, monthly, January 2019 to July 2026.
+**Data:** World Bank, [Monthly food price estimates by product and market, Nigeria](https://microdata.worldbank.org/catalog/4503). 68 markets, monthly, January 2019 to July 2026.
 
 ## What I found
 
@@ -75,15 +75,30 @@ State-level numbers are in [`outputs/plate_by_state.csv`](outputs/plate_by_state
 - **Protein is the real problem now.** Cheap calories got cheaper. Meat, eggs and milk didn't. For anyone thinking about nutrition, that matters more than the headline inflation number.
 - **The south is waiting.** Prices fell faster where the food is grown. Whatever is slowing that down on the way south, like transport, storage or middlemen, is worth a closer look.
 
-## About the data
+## Cleaning the data
 
-This is the World Bank's Real-Time Food Prices data for Nigeria. It starts from market prices collected by WFP and FAO, then uses a model to fill in the months and markets where nobody collected a price. A few things I had to work around:
+This is the World Bank's Real-Time Food Prices data for Nigeria. It starts from market prices collected by WFP and FAO, then uses a model to fill in the months and markets where nobody collected a price. It's a tidy-looking file, but it still needed some work before I could trust it.
 
-- **Most prices are estimates.** Since 2019, only about 24% of the prices were actually collected in a market. The rest come from the World Bank's model. Before 2016 it's under 10%, which is why I start in 2019. I use the model's monthly "close" price throughout, which is how the dataset is meant to be used.
-- **Some rows aren't real markets.** There's a "Market Average" row (the national series I use), five rows for the geopolitical zones, and a row called "National Average" that turned out to be just the Abuja market. I kept all of those apart from the 66 real markets.
-- **Every food has its own unit.** Beans are priced per 2.5 kg, eggs per 30, milk per 400 g. For the plate cost I turned everything into a price per kg.
-- **Most markets are in the north-east.** 53 of the 66 are in Borno, Yobe and Adamawa, probably because a lot of this monitoring is humanitarian work. Lagos, Oyo and Abia have one market each, so I compare regions using the zone averages, not single states.
-- The file goes up to August 2026, but July 2026 is the last month with real survey data, so I stop there.
+Here's every step, with the row count after each one. The counts come straight from [`08_cleaning_log.sql`](sql/08_cleaning_log.sql), and the table is saved in [`outputs/cleaning_log.csv`](outputs/cleaning_log.csv). One row in the file is one price series (a market, a zone or the national average) in one month.
+
+| Step | What I did | Rows after | Why |
+| ---: | --- | ---: | --- |
+| 1 | Started with the raw file | 17,464 | 74 price series, 236 months (Jan 2007 to Aug 2026), 137 columns |
+| 2 | Dropped August 2026 | 17,390 | The file says its last real survey was July 2026, so August is a forecast, not data |
+| 3 | Kept January 2019 onward | 6,734 | Earlier years are much thinner (under 10% of prices collected before 2017). 2019 also gives four full years before the 2023 jump |
+| 4 | Checked for duplicate market-months | 6,734 | Found none |
+| 5 | Sorted the rows into three kinds | 6,734 | 68 real markets, 5 zone series and 1 national average. Each is used for something different |
+| 6 | Fixed two mislabelled markets | 6,734 | See below |
+| 7 | Checked for missing prices | 6,734 | None in the window, so nothing to fill |
+| 8 | Noted how much is estimated | 6,734 | Only 24.3% of market prices since 2019 were actually collected. The rest are model estimates |
+| 9 | Put prices on the same footing | 6,734 | Each food has its own unit, so for the plate cost I converted rice, beans and garri to per kg |
+
+**The two mislabelled markets.** Two rows looked like summary rows at first: one labelled "National Average" and one labelled "Kano State (1)". My first pass set them aside. When I checked more closely, they turned out to be real markets. "National Average" is Abuja market and "Kano State (1)" is Kano city market. Each has its own map coordinates, over 200 prices that were actually collected, and a price series that doesn't copy any other row. So I renamed their states to FCT and Kano and counted them as markets. That took the market count from 66 to 68. None of the headline numbers changed, since those use the national average and zone rows, but the state table now includes Abuja and a second Kano market.
+
+**Two more things to know:**
+
+- **I use the model's monthly "close" price throughout.** That's how the World Bank means the data to be used, and it's why there are no gaps to fill. The catch is step 8: most of those prices are estimates.
+- **Most markets are in the north-east.** 53 of the 68 are in Borno, Yobe and Adamawa, probably because a lot of this monitoring is humanitarian work. Lagos, Oyo and Abia have one market each, so I compare regions using the zone series, not single states.
 
 ## How I did it
 
@@ -95,6 +110,7 @@ All the analysis is in SQL, run with DuckDB straight on the CSV. Python just run
 4. Grains vs protein, both set to 100 in January 2023 ([`04`](sql/04_group_index.sql))
 5. The plate cost by zone and by state ([`05`](sql/05_plate_by_zone.sql), [`06`](sql/06_plate_by_state.sql))
 6. How much of the data was really collected vs estimated, year by year ([`07`](sql/07_observed_share.sql))
+7. The cleaning log above, with every step and row count ([`08`](sql/08_cleaning_log.sql))
 
 ## The Excel version
 
@@ -108,7 +124,7 @@ Only the two data sheets have typed-in numbers. Everything else is a formula (`I
 
 ## What this can't tell you
 
-- About three quarters of the prices since 2019 are model estimates. The trends are probably solid, but a single market in a single month is less certain.
+- About three quarters of the prices since 2019 are model estimates (see step 8 of the cleaning log). The trends are probably solid, but a single market in a single month is less certain.
 - Most markets are in the north-east, so the national average leans that way.
 - I didn't work out *why* prices moved. The rise lines up with the 2023 fuel subsidy removal and the naira devaluation, but this data alone can't prove one caused the other.
 - The World Bank keeps updating these estimates. I used the version downloaded on 3 August 2026, so a newer download could give slightly different numbers.

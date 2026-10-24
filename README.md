@@ -17,7 +17,7 @@ I like questions people actually argue about. Is food really getting cheaper? Wh
 
 ### Naira on the Plate
 
-In January 2023, a 2.5 kg bag of beans cost about ₦1,078. By September 2024 it was ₦4,597. I used the World Bank's price data for 66 Nigerian markets to see the whole story.
+In January 2023, a 2.5 kg bag of beans cost about ₦1,078. By September 2024 it was ₦4,597. I used the World Bank's price data for 68 Nigerian markets to see the whole story.
 
 At the worst point, in June 2024, food prices were rising 112% a year. Since August 2025 they've been falling, but they're still about 2.5x what they were in early 2023. And the fall isn't even. Staples like rice, beans and garri are about 35% off their peak. Meat, eggs and milk are only 4% off theirs.
 
