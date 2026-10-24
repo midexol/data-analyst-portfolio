@@ -1,0 +1,10 @@
+step,what_i_did,rows_after,why
+1,Start with the raw World Bank file,17464,"74 price series, 236 months (Jan 2007 to Aug 2026), 137 columns"
+2,Drop August 2026,17390,"The file says its last real survey was July 2026, so August is a forecast, not data"
+3,Keep January 2019 onward,6734,Earlier years are much thinner (under 10% of prices collected before 2017). 2019 also gives four full years before the 2023 jump to compare against
+4,Check for duplicate market-months,6734,"0 duplicates found, nothing removed"
+5,Sort the rows into three kinds,6734,"68 real markets, 5 zone series, 1 national average. Nothing removed, they're just used for different things"
+6,Fix two mislabelled markets,6734,"""National Average"" is really Abuja market and ""Kano State (1)"" is really Kano city market. Both have their own coordinates and collected prices, so I renamed their states to FCT and Kano and counted them as markets"
+7,Check for missing prices,6734,"0 empty estimated prices in the window, so no filling needed"
+8,Note how much is estimated,6734,"Only 24.3% of market prices since 2019 were actually collected. The rest are World Bank model estimates. Kept, but flagged in the write-up"
+9,Put prices on the same footing,6734,"Each food has its own unit (beans per 2.5 kg, eggs per 30, milk per 400 g). For the plate cost, beans are divided by 2.5 so rice, beans and garri are all per kg"

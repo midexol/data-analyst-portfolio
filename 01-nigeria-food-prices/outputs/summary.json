@@ -4,7 +4,7 @@
     "2019-01",
     "2026-07"
   ],
-  "real_markets": 66,
+  "real_markets": 68,
   "peak_yoy_inflation_pct": 111.7,
   "peak_yoy_month": "2024-06",
   "latest_yoy_inflation_pct": -4.9,
@@ -24,5 +24,5 @@
     "South West": 3717,
     "North West": 3208
   },
-  "pct_prices_observed_2019_2026": 24.2
+  "pct_prices_observed_2019_2026": 24.3
 }

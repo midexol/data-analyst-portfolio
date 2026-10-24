@@ -278,7 +278,7 @@ def build(df: pd.DataFrame, source: str) -> Path:
     ws_r.column_dimensions["B"].width = 90
     rows = [
         ("Naira on the Plate", None),
-        ("Nigerian food prices, Jan 2019 to Jul 2026, national average across 66 markets.", None),
+        ("Nigerian food prices, Jan 2019 to Jul 2026, national average across 68 markets.", None),
         (None, None),
         ("Sheet", "What it shows"),
         ("Pick a food", "Choose any food in the yellow cell. The stats and chart update to show its price since 2019."),
