@@ -11,7 +11,6 @@ I like questions people actually argue about. Is food really getting cheaper? Wh
 | [Naira on the Plate](01-nigeria-food-prices/) | Food prices in Nigeria went wild. What came back down, and what didn't? | SQL, Excel, Python | Done |
 | [Late Parcels, Low Stars](04-olist-delivery-reviews/) | What does a late delivery really cost an online store? | SQL, Python | Done |
 | [Do Prediction Markets Know?](02-polymarket-calibration/) | When Polymarket says 70%, does it happen 70% of the time? | Python | Code ready, not run yet |
-| [Remittance Rails](03-stellar-remittance/) | How much money moves on Stellar, and who's sending it? | BigQuery SQL | Queries ready, not run yet |
 
 ## The finished ones
 
