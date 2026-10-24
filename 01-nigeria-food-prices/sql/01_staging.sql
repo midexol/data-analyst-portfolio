@@ -6,11 +6,18 @@
 -- Every month up to July 2026 (the last month with survey data; Aug 2026 is a nowcast)
 CREATE OR REPLACE TABLE prices_all AS
 SELECT
-    adm1_name                         AS state,
+    -- two real markets come with odd state labels: "National Average" is Abuja market,
+    -- and "Kano State (1)" is Kano city market. Both have their own coordinates and
+    -- collected prices, so I give them their proper state names (see 08_cleaning_log.sql)
+    CASE adm1_name
+        WHEN 'National Average' THEN 'FCT'
+        WHEN 'Kano State (1)'   THEN 'Kano'
+        ELSE adm1_name
+    END                               AS state,
     mkt_name                          AS market,
     CAST(price_date AS DATE)          AS month,
-    -- rows that are averages, not real markets. "National Average" is actually just Abuja.
-    adm1_name NOT IN ('Market Average', 'Geopolitical Zone', 'National Average', 'Kano State (1)') AS is_real_market,
+    -- the only rows that aren't real markets: the national average and the 5 zone series
+    adm1_name NOT IN ('Market Average', 'Geopolitical Zone') AS is_real_market,
     c_food_price_index                AS food_price_index,
     inflation_food_price_index        AS yoy_inflation_pct,
     -- estimated monthly prices (naira, in each food's own unit)
