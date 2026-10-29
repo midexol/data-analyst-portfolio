@@ -1,18 +1,37 @@
 # data-analyst-portfolio
 
-Hi, I'm Olamide Okunola. Most people call me Mide, and online I'm midexol pretty much everywhere. I study Computer Science at FUTA in Akure, Nigeria, and I'm looking for my first analyst internship.
+Hi, I'm Olamide Okunola. Most people call me Mide, and online I'm midexol pretty much everywhere. I study Computer Science at FUTA in Akure, Nigeria.
 
-I like questions people actually argue about. Is food really getting cheaper? Why do customers stop coming back? Everyone has an opinion, so I'd rather go and count. Every project here uses public data, which means you can rerun my work and check every number yourself.
+Every project here uses public data, so you can rerun my work and check every number yourself.
 
 ## Projects
 
-| Project | The question | Tools | Status |
-| --- | --- | --- | --- |
-| [Naira on the Plate](01-nigeria-food-prices/) | Food prices in Nigeria went wild. What came back down, and what didn't? | SQL, Excel, Python | Done |
-| [Late Parcels, Low Stars](04-olist-delivery-reviews/) | What does a late delivery really cost an online store? | SQL, Python | Done |
-| [Do Prediction Markets Know?](02-polymarket-calibration/) | When Polymarket says 70%, does it happen 70% of the time? | Python | Code ready, not run yet |
+| Project | The question | Tools |
+| --- | --- | --- |
+| [Lights Out](03-lights-out/) | Why does Nigeria have so little grid power? | SQL, Python, Jupyter |
+| [Naira on the Plate](01-nigeria-food-prices/) | Is food in Nigeria really getting cheaper? | SQL, Excel, Python |
+| [Do Prediction Markets Know?](02-polymarket-calibration/) | When Polymarket says 70%, does it happen? | SQL, Python |
+| [Late Parcels, Low Stars](04-olist-delivery-reviews/) | What does a late parcel cost a store? | SQL, Python |
 
-## The finished ones
+All the SQL runs in MySQL.
+
+## In short
+
+### Lights Out
+
+In 2000, Nigeria and Bangladesh both made about 117 kWh of grid power per person. By 2024, Bangladesh made 586 and Nigeria made 161. In 2022 the two had about the same income per person, so being poorer doesn't explain the gap. Countries at that income make about 620 kWh per person. Nigeria makes about a quarter of that.
+
+![Grid electricity per person, 2000 to 2024](03-lights-out/charts/nigeria_vs_bangladesh.png)
+
+[Read the full write-up](03-lights-out/), or see the [exploration notebook](03-lights-out/notebooks/explore.ipynb).
+
+### Do Prediction Markets Know?
+
+I scored 1,890 settled Polymarket markets. The prices were mostly right, and got sharper close to the end. The exception is underdogs: bets priced at 10 to 40% came true 35% of the time, not the 23% the price suggested.
+
+![Market price vs how often YES happened](02-polymarket-calibration/charts/calibration.png)
+
+[Read the full write-up](02-polymarket-calibration/).
 
 ### Naira on the Plate
 
@@ -38,7 +57,7 @@ On-time orders average 4.28 stars. Late ones average 2.26. First-time buyers who
 
 - `README.md` is the write-up
 - `sql/` has the queries, numbered in the order they run
-- `src/` has the scripts that download the data and run everything
+- `src/` has the scripts that download the data, load it into MySQL and run everything
 - `outputs/` has the result tables. Every number in a write-up comes from here
 - `charts/` has the charts
 
