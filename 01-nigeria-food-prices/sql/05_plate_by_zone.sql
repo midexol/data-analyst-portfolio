@@ -15,10 +15,10 @@ peak AS (
 )
 SELECT
     zone,
-    CAST(round(max(plate_ngn) FILTER (WHERE month = DATE '2023-01-01')) AS INTEGER)            AS plate_jan_2023,
-    strftime((SELECT peak_month FROM peak), '%Y-%m')                          AS peak_month,
-    CAST(round(max(plate_ngn) FILTER (WHERE month = (SELECT peak_month FROM peak))) AS INTEGER) AS plate_peak,
-    CAST(round(max(plate_ngn) FILTER (WHERE month = DATE '2026-07-01')) AS INTEGER)            AS plate_jul_2026
+    CAST(round(max(CASE WHEN month = DATE '2023-01-01' THEN plate_ngn END)) AS SIGNED)          AS plate_jan_2023,
+    DATE_FORMAT((SELECT peak_month FROM peak), '%Y-%m')                                         AS peak_month,
+    CAST(round(max(CASE WHEN month = (SELECT peak_month FROM peak) THEN plate_ngn END)) AS SIGNED) AS plate_peak,
+    CAST(round(max(CASE WHEN month = DATE '2026-07-01' THEN plate_ngn END)) AS SIGNED)          AS plate_jul_2026
 FROM zones
 GROUP BY zone
 ORDER BY plate_jul_2026 DESC;

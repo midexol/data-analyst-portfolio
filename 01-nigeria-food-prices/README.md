@@ -9,7 +9,7 @@ In January 2023, a 2.5 kg bag of beans cost about **₦1,078**. By September 202
 - The fall isn't even. Staples like rice, beans and garri are about **35%** off their peak. Meat, eggs and milk are only **4%** off theirs.
 - Where you live matters. The same basic plate costs **25% more** in the South South than in the North West.
 
-**Tools:** SQL (DuckDB), Excel, Python (pandas, matplotlib)
+**Tools:** SQL (MySQL), Excel, Python (pandas, matplotlib)
 **Data:** World Bank, [Monthly food price estimates by product and market, Nigeria](https://microdata.worldbank.org/catalog/4503). 68 markets, monthly, January 2019 to July 2026.
 
 ## What I found
@@ -102,7 +102,7 @@ Here's every step, with the row count after each one. The counts come straight f
 
 ## How I did it
 
-All the analysis is in SQL, run with DuckDB straight on the CSV. Python just runs the queries and draws the charts.
+All the analysis is in SQL, run in MySQL. Python loads the CSV into a table, runs the queries and draws the charts.
 
 1. Clean the raw file into tables I can work with: mark which rows are real markets, work out the plate cost, count how many prices were actually collected, and turn the 16 food columns into one row per month per food ([`01_staging.sql`](sql/01_staging.sql))
 2. The food price index and yearly inflation ([`02`](sql/02_national_index.sql))
@@ -132,7 +132,8 @@ Only the two data sheets have typed-in numbers. Everything else is a formula (`I
 ## Run it yourself
 
 1. Download the CSV from the [World Bank Microdata Library](https://microdata.worldbank.org/catalog/4503) (you'll need a free account) and put it in `data/raw/`. The file is named like `NGA_RTFP_mkt_2007_YYYY-MM-DD.csv`.
-2. Then:
+2. You need MySQL 8 running. Each project creates its own database and loads the raw data into it. If you don't log in as `root` with no password, set `MYSQL_USER` and `MYSQL_PASSWORD` first (and `MYSQL_HOST` if it isn't on your machine).
+3. Then:
 
 ```bash
 pip install -r requirements.txt
