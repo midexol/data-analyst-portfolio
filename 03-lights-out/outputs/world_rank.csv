@@ -1,0 +1,50 @@
+rank_from_bottom,country,population_m,kwh_per_person,countries_ranked
+1,Afghanistan,43.0,23.0,49
+2,Madagascar,32.0,76.0,49
+3,Uganda,50.0,116.0,49
+4,Tanzania,69.0,129.0,49
+5,Yemen,41.0,129.0,49
+6,Democratic Republic of Congo,109.0,146.0,49
+7,Nigeria,233.0,161.0,49
+8,Ethiopia,132.0,191.0,49
+9,Kenya,56.0,235.0,49
+10,Sudan,50.0,293.0,49
+11,Cote d'Ivoire,32.0,338.0,49
+12,Myanmar,55.0,398.0,49
+13,Angola,38.0,411.0,49
+14,Mozambique,35.0,571.0,49
+15,Bangladesh,174.0,586.0,49
+16,Pakistan,251.0,696.0,49
+17,Ghana,34.0,705.0,49
+18,Philippines,116.0,1072.0,49
+19,Morocco,38.0,1113.0,49
+20,Indonesia,283.0,1311.0,49
+21,India,1451.0,1404.0,49
+22,Colombia,53.0,1686.0,49
+23,Peru,34.0,1733.0,49
+24,Egypt,117.0,2037.0,49
+25,Algeria,47.0,2058.0,49
+26,Uzbekistan,36.0,2241.0,49
+27,Mexico,131.0,2714.0,49
+28,Thailand,72.0,2784.0,49
+29,Vietnam,101.0,3006.0,49
+30,Iraq,46.0,3252.0,49
+31,Argentina,46.0,3337.0,49
+32,Brazil,212.0,3518.0,49
+33,South Africa,64.0,3867.0,49
+34,Turkey,87.0,3901.0,49
+35,United Kingdom,69.0,4110.0,49
+36,Iran,92.0,4322.0,49
+37,Poland,39.0,4466.0,49
+38,Italy,59.0,4509.0,49
+39,Malaysia,36.0,5572.0,49
+40,Spain,48.0,5864.0,49
+41,Germany,85.0,5866.0,49
+42,China,1419.0,7107.0,49
+43,Japan,124.0,8213.0,49
+44,Russia,145.0,8350.0,49
+45,France,67.0,8442.0,49
+46,South Korea,52.0,12092.0,49
+47,United States,345.0,12712.0,49
+48,Saudi Arabia,34.0,13386.0,49
+49,Canada,40.0,16023.0,49

@@ -1,0 +1,9 @@
+step,what_i_did,rows_after,why
+1,Start with the raw OWID file,23377,"314 countries and regions, years 1900 to 2025, 130 columns"
+2,"Drop regions, keep countries",17265,"Rows like ""Africa"", ""World"" or ""High-income countries"" have no ISO code or an OWID_ code. They're totals, so keeping them would double count. 220 countries left"
+3,Keep 2000 to 2024,5459,"Nigeria's electricity numbers start in 2000. 2025 is cut because only 90 countries have it so far, against 196 for 2024"
+4,Check for duplicate country-years,5459,"0 duplicates found, nothing removed"
+5,Check Nigeria has no gaps,5459,"Nigeria has 25 of 25 years filled in. 162 country-years elsewhere are empty. Almost all are territories under 1 million people, plus 2 years for Ukraine. Left empty, not guessed"
+6,Check the per-person maths,5459,"For Nigeria, kWh per person matches generation divided by population to within 0.001 kWh in every year, so the column means what it says"
+7,Check why use and generation differ,5459,"From 2016 Nigeria's demand is lower than its generation. The gap matches its net exports, so it's power sold to neighbours, not an error"
+8,Note what this data can't see,5459,"These are grid numbers only. Power from home and business generators isn't counted, and in Nigeria that's a lot"
