@@ -10,7 +10,7 @@ I wanted to know what that moment costs the store. So I went through **96,203** 
 - First-time buyers whose order came late were **25% less likely** to order again.
 - The problem is concentrated. Just **98 of 2,945** sellers cause half of all late orders.
 
-**Tools:** SQL (DuckDB), Python (pandas, SciPy, matplotlib)
+**Tools:** SQL (MySQL), Python (pandas, SciPy, matplotlib)
 **Data:** [Olist Brazilian E-Commerce dataset](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce), 96,203 delivered orders from January 2017 to August 2018
 
 ## What I found
@@ -89,6 +89,8 @@ A few choices worth knowing about:
 - If one order had items from several sellers, it counts toward each of them in the seller numbers.
 
 ## Run it yourself
+
+You need MySQL 8 running. Each project creates its own database and loads the raw data into it. If you don't log in as `root` with no password, set `MYSQL_USER` and `MYSQL_PASSWORD` first (and `MYSQL_HOST` if it isn't on your machine).
 
 ```bash
 pip install -r requirements.txt

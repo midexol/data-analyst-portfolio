@@ -3,7 +3,7 @@
 Usage (from the project folder):
     python src/run_analysis.py
 
-Reads the raw CSVs in data/raw/, runs every file in sql/ in order with DuckDB,
+Loads the raw CSVs in data/raw/ into MySQL, runs every file in sql/ in order,
 writes each result to outputs/, runs the statistical tests, draws the charts
 into charts/, and writes outputs/summary.json with the headline numbers.
 """
@@ -12,9 +12,10 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-import duckdb
 import pandas as pd
 from scipy import stats
+
+import db
 
 ROOT = Path(__file__).resolve().parents[1]
 RAW = ROOT / "data" / "raw"
@@ -22,39 +23,53 @@ SQL = ROOT / "sql"
 OUT = ROOT / "outputs"
 OUT.mkdir(exist_ok=True)
 
+DATABASE = "olist"
+
+# table name: (file, date columns, columns to load)
 RAW_TABLES = {
-    "raw_orders": "olist_orders_dataset.csv",
-    "raw_reviews": "olist_order_reviews_dataset.csv",
-    "raw_customers": "olist_customers_dataset.csv",
-    "raw_items": "olist_order_items_dataset.csv",
+    "raw_orders": ("olist_orders_dataset.csv",
+                   ["order_purchase_timestamp", "order_delivered_customer_date", "order_estimated_delivery_date"],
+                   ["order_id", "customer_id", "order_status", "order_purchase_timestamp",
+                    "order_delivered_customer_date", "order_estimated_delivery_date"]),
+    "raw_reviews": ("olist_order_reviews_dataset.csv",
+                    ["review_creation_date", "review_answer_timestamp"],
+                    ["review_id", "order_id", "review_score", "review_creation_date", "review_answer_timestamp"]),
+    "raw_customers": ("olist_customers_dataset.csv", [],
+                      ["customer_id", "customer_unique_id", "customer_state"]),
+    "raw_items": ("olist_order_items_dataset.csv", [],
+                  ["order_id", "seller_id", "price", "freight_value"]),
 }
 
 
-def connect() -> duckdb.DuckDBPyConnection:
-    con = duckdb.connect()
-    for name, file in RAW_TABLES.items():
+def connect():
+    for name, (file, dates, cols) in RAW_TABLES.items():
         path = RAW / file
         if not path.exists():
             raise SystemExit(f"Missing {path}. See data/README.md for how to download the data.")
-        con.sql(f"CREATE OR REPLACE VIEW {name} AS SELECT * FROM read_csv_auto('{path.as_posix()}')")
+        rows = db.load_csv(DATABASE, name, path, usecols=cols, parse_dates=dates)
+        print(f"loaded {rows:,} rows into {name}")
+    con = db.connect(DATABASE)
+    with con.cursor() as cur:  # indexes keep the joins fast
+        for t, c in [("raw_orders", "order_id"), ("raw_orders", "customer_id"), ("raw_reviews", "order_id"),
+                     ("raw_customers", "customer_id"), ("raw_items", "order_id")]:
+            cur.execute(f"CREATE INDEX ix_{t}_{c} ON {t} ({c}(32))")
     return con
 
 
-def run_sql(con: duckdb.DuckDBPyConnection) -> dict[str, pd.DataFrame]:
+def run_sql(con) -> dict[str, pd.DataFrame]:
     results: dict[str, pd.DataFrame] = {}
     for f in sorted(SQL.glob("*.sql")):
-        text = f.read_text()
+        df = db.run_file(con, f)
         if f.name.startswith("01_"):
-            con.execute(text)  # staging: creates tables, returns nothing
-            continue
-        df = con.sql(text).df()
+            continue  # staging: creates tables, returns nothing
         df.to_csv(OUT / f"{f.stem}.csv", index=False)
         results[f.stem] = df
     return results
 
 
-def tests(con: duckdb.DuckDBPyConnection) -> dict:
-    df = con.sql("SELECT is_late, review_score FROM fct_orders WHERE review_score IS NOT NULL").df()
+def tests(con) -> dict:
+    df = db.query(con, "SELECT is_late, review_score FROM fct_orders WHERE review_score IS NOT NULL")
+    df["is_late"] = df.is_late.astype(bool)
     on_time = df.loc[~df.is_late, "review_score"]
     late = df.loc[df.is_late, "review_score"]
     u, p = stats.mannwhitneyu(on_time, late, alternative="two-sided")
@@ -84,17 +99,22 @@ def tests(con: duckdb.DuckDBPyConnection) -> dict:
     }
 
 
-def headline(con: duckdb.DuckDBPyConnection) -> dict:
-    row = con.sql("""
+def headline(con) -> dict:
+    row = db.query(con, """
+        WITH ordered AS (
+            SELECT delivery_days, row_number() OVER (ORDER BY delivery_days) AS rn, count(*) OVER () AS n
+            FROM fct_orders
+        )
         SELECT count(*) AS orders,
                count(DISTINCT customer_unique_id) AS customers,
-               round(100.0 * avg(is_late::INT), 1) AS pct_late,
-               round(avg(delivery_days), 1) AS avg_delivery_days,
-               round(median(delivery_days), 0) AS median_delivery_days,
-               min(purchased_at)::DATE AS first_purchase,
-               max(purchased_at)::DATE AS last_purchase
+               round(100 * avg(is_late * 1e0), 1) AS pct_late,
+               round(avg(delivery_days * 1e0), 1) AS avg_delivery_days,
+               (SELECT round(avg(delivery_days), 0) FROM ordered
+                WHERE rn IN (FLOOR((n + 1) / 2), CEIL((n + 1) / 2))) AS median_delivery_days,
+               CAST(min(purchased_at) AS DATE) AS first_purchase,
+               CAST(max(purchased_at) AS DATE) AS last_purchase
         FROM fct_orders
-    """).df().iloc[0]
+    """).iloc[0]
     return {k: (v.isoformat() if hasattr(v, "isoformat") else (v.item() if hasattr(v, "item") else v))
             for k, v in row.items()}
 

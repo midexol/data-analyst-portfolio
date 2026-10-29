@@ -5,7 +5,7 @@ WITH ref AS (SELECT max(purchased_at) + INTERVAL 1 DAY AS ref_date FROM fct_orde
 cust AS (
     SELECT
         customer_unique_id,
-        date_diff('day', max(purchased_at), (SELECT ref_date FROM ref)) AS recency_days,
+        DATEDIFF((SELECT ref_date FROM ref), max(purchased_at))           AS recency_days,
         count(*)                                                         AS frequency,
         sum(items_value + freight_value)                                 AS monetary
     FROM fct_orders
@@ -36,7 +36,7 @@ SELECT
     round(sum(monetary), 0)                                AS revenue_brl,
     round(100.0 * sum(monetary) / sum(sum(monetary)) OVER (), 1) AS pct_revenue,
     round(avg(monetary), 0)                                AS avg_spend_brl,
-    round(avg(recency_days), 0)                            AS avg_recency_days
+    round(avg(recency_days * 1e0), 0)                            AS avg_recency_days
 FROM labelled
 GROUP BY segment
 ORDER BY segment;

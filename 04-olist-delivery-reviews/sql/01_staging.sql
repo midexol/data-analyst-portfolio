@@ -2,35 +2,37 @@
 -- Builds clean, one-row-per-order tables from the raw Olist CSVs.
 -- Scope: delivered orders purchased 2017-01-01 to 2018-08-31 (the months with full volume).
 
-CREATE OR REPLACE TABLE stg_orders AS
+DROP TABLE IF EXISTS stg_orders;
+CREATE TABLE stg_orders AS
 SELECT
     o.order_id,
     o.customer_id,
     o.order_purchase_timestamp                         AS purchased_at,
     o.order_delivered_customer_date                    AS delivered_at,
     o.order_estimated_delivery_date                    AS estimated_at,
-    date_diff('day', o.order_purchase_timestamp, o.order_delivered_customer_date)      AS delivery_days,
+    DATEDIFF(o.order_delivered_customer_date, o.order_purchase_timestamp)              AS delivery_days,
     -- days late vs the date promised at checkout (negative = early)
-    date_diff('day', CAST(o.order_estimated_delivery_date AS DATE),
-                     CAST(o.order_delivered_customer_date AS DATE))                    AS days_late
+    DATEDIFF(o.order_delivered_customer_date, o.order_estimated_delivery_date)         AS days_late
 FROM raw_orders o
 WHERE o.order_status = 'delivered'
   AND o.order_delivered_customer_date IS NOT NULL
-  AND o.order_purchase_timestamp >= TIMESTAMP '2017-01-01'
-  AND o.order_purchase_timestamp <  TIMESTAMP '2018-09-01';
+  AND o.order_purchase_timestamp >= TIMESTAMP '2017-01-01 00:00:00'
+  AND o.order_purchase_timestamp <  TIMESTAMP '2018-09-01 00:00:00';
 
 -- A few orders have more than one review; keep the most recent answer.
-CREATE OR REPLACE TABLE stg_reviews AS
+DROP TABLE IF EXISTS stg_reviews;
+CREATE TABLE stg_reviews AS
 SELECT order_id, review_score
 FROM (
     SELECT order_id, review_score,
            row_number() OVER (PARTITION BY order_id
                               ORDER BY review_answer_timestamp DESC, review_creation_date DESC, review_id) AS rn
     FROM raw_reviews
-)
+) AS ranked
 WHERE rn = 1;
 
-CREATE OR REPLACE TABLE stg_order_value AS
+DROP TABLE IF EXISTS stg_order_value;
+CREATE TABLE stg_order_value AS
 SELECT order_id,
        sum(price)          AS items_value,
        sum(freight_value)  AS freight_value,
@@ -38,7 +40,8 @@ SELECT order_id,
 FROM raw_items
 GROUP BY order_id;
 
-CREATE OR REPLACE TABLE fct_orders AS
+DROP TABLE IF EXISTS fct_orders;
+CREATE TABLE fct_orders AS
 SELECT
     s.*,
     c.customer_unique_id,

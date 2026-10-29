@@ -5,8 +5,8 @@
     "pct_late": 6.8,
     "avg_delivery_days": 12.5,
     "median_delivery_days": 10.0,
-    "first_purchase": "2017-01-05T00:00:00",
-    "last_purchase": "2018-08-29T00:00:00"
+    "first_purchase": "2017-01-05",
+    "last_purchase": "2018-08-29"
   },
   "tests": {
     "reviews_mann_whitney": {

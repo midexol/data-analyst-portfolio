@@ -8,8 +8,8 @@ per_seller AS (
     SELECT
         os.seller_id,
         count(*)                          AS orders,
-        sum(f.is_late::INT)               AS late_orders,
-        avg(f.review_score)               AS avg_review
+        sum(f.is_late)               AS late_orders,
+        avg(f.review_score * 1e0)         AS avg_review
     FROM order_sellers os
     JOIN fct_orders f USING (order_id)
     GROUP BY os.seller_id
@@ -19,7 +19,7 @@ SELECT
     orders,
     late_orders,
     round(100.0 * late_orders / orders, 1)                                  AS pct_late,
-    round(avg_review, 2)                                                    AS avg_review,
+    round(CAST(avg_review AS DECIMAL(20, 6)), 2)                            AS avg_review,  -- exact decimal, so halves round up
     round(100.0 * late_orders / sum(late_orders) OVER (), 2)                AS pct_of_all_late,
     round(100.0 * sum(late_orders) OVER (ORDER BY late_orders DESC, seller_id
                                          ROWS UNBOUNDED PRECEDING)

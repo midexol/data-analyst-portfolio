@@ -19,9 +19,9 @@ SELECT
     CASE WHEN first_late THEN 'First order late' ELSE 'First order on time' END AS first_experience,
     count(*)                                                          AS customers,
     sum(CASE WHEN r.customer_unique_id IS NOT NULL THEN 1 ELSE 0 END) AS repeat_customers,
-    round(100.0 * avg(CASE WHEN r.customer_unique_id IS NOT NULL THEN 1 ELSE 0 END), 2) AS pct_repeat
+    round(100.0 * avg(CASE WHEN r.customer_unique_id IS NOT NULL THEN 1e0 ELSE 0 END), 2) AS pct_repeat
 FROM firsts f
 LEFT JOIN repeaters r USING (customer_unique_id)
-WHERE first_at < TIMESTAMP '2018-03-01'
+WHERE first_at < TIMESTAMP '2018-03-01 00:00:00'
 GROUP BY 1
 ORDER BY 1;
