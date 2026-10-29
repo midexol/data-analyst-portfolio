@@ -51,7 +51,7 @@ def reviews_by_delay(df: pd.DataFrame, out: Path) -> None:
     bars = ax.bar(labels, df.avg_review, color=S1, width=0.62)
     ax.set_ylim(0, 5)
     ax.set_ylabel("Average review (1-5 stars)")
-    ax.set_title("Reviews collapse once a parcel is a few days late")
+    ax.set_title("Average review score by days late")
     for b, v in zip(bars, df.avg_review):
         ax.text(b.get_x() + b.get_width() / 2, v + 0.08, f"{v:.2f}", ha="center", color=INK, fontsize=11)
     ax.tick_params(axis="x", length=0)
@@ -66,7 +66,7 @@ def late_rate_by_month(df: pd.DataFrame, out: Path) -> None:
     ax.scatter(df.month, df.pct_late, color=S1, s=14, zorder=3)
     ax.set_ylim(0, max(df.pct_late) * 1.25)
     ax.set_ylabel("Orders delivered late (%)")
-    ax.set_title("Late deliveries spike after Black Friday and in Feb-Mar 2018")
+    ax.set_title("Share of orders delivered late, by month")
     labels = [("2018-03-01", (0, 9), "center", "bottom")]
     for when, offset, ha, va in labels:
         r = df[df.month == when].iloc[0]
@@ -84,7 +84,7 @@ def repeat_by_first_experience(df: pd.DataFrame, out: Path) -> None:
     bars = ax.bar(df.first_experience, df.pct_repeat, color=S1, width=0.5)
     ax.set_ylim(0, max(df.pct_repeat) * 1.3)
     ax.set_ylabel("Customers who ordered again (%)")
-    ax.set_title("A late first order means fewer comebacks")
+    ax.set_title("Repeat purchase rate by first order delivery")
     for b, v, n in zip(bars, df.pct_repeat, df.customers):
         ax.text(b.get_x() + b.get_width() / 2, v + 0.08, f"{v:.2f}%\n(n = {n:,})", ha="center", fontsize=10)
     ax.tick_params(axis="x", length=0)
@@ -117,7 +117,7 @@ def rfm_share(df: pd.DataFrame, out: Path) -> None:
     ax.grid(axis="y", visible=False)
     ax.grid(axis="x", visible=True)
     ax.set_xlabel("%")
-    ax.set_title("A quarter of customers bring in over half the revenue")
+    ax.set_title("Share of customers and revenue by customer segment")
     for i, (c, r) in enumerate(zip(df.pct_customers, df.pct_revenue)):
         ax.text(c + 0.4, i - h / 2 - 0.02, f"{c:.1f}", va="center", fontsize=9, color=INK_2)
         ax.text(r + 0.4, i + h / 2 + 0.02, f"{r:.1f}", va="center", fontsize=9, color=INK_2)

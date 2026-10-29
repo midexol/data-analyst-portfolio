@@ -38,7 +38,7 @@ def inflation(ni: pd.DataFrame, out: Path) -> None:
     ax.annotate(f"{peak.date:%b %Y}: {peak.yoy_inflation_pct:.0f}%", (peak.date, peak.yoy_inflation_pct),
                 xytext=(10, 0), textcoords="offset points", va="center", fontsize=10)
     ax.set_ylabel("Food prices vs a year earlier (%)")
-    ax.set_title("Food inflation peaked above 100% in mid-2024")
+    ax.set_title("Food price inflation, year on year")
     _save(fig, out / "food_inflation.png")
 
 
@@ -52,7 +52,7 @@ def grains_vs_protein(gi: pd.DataFrame, out: Path) -> None:
         ax.annotate(f"{gi[col].iloc[-1]:.0f}", (gi.date.iloc[-1], gi[col].iloc[-1]),
                     xytext=(6, 0), textcoords="offset points", va="center", fontsize=10, color=INK)
     ax.set_ylabel("Price index (Jan 2023 = 100)")
-    ax.set_title("Staples came back down. Meat, eggs and milk didn't")
+    ax.set_title("Price index: staples vs meat, eggs and milk (Jan 2023 = 100)")
     ax.legend(frameon=False, loc="upper left")
     _save(fig, out / "grains_vs_protein.png")
 
@@ -68,7 +68,7 @@ def peak_to_now(cc: pd.DataFrame, out: Path) -> None:
         ax.text(v - 1, y, f"{v}%", va="center", ha="right", fontsize=9, color=INK_2)
     ax.set_xlim(min(cc.peak_to_now_pct) - 10, 2)
     ax.set_xlabel("July 2026 price vs its peak since Jan 2023 (%)")
-    ax.set_title("How far each food has fallen from its peak")
+    ax.set_title("Change from peak price, by food")
     ax.tick_params(axis="y", length=0)
     _save(fig, out / "fall_from_peak.png")
 
@@ -84,7 +84,7 @@ def plate_by_zone(pz: pd.DataFrame, out: Path) -> None:
         ax.text(v + 40, y, f"₦{v:,.0f}", va="center", fontsize=10, color=INK)
     ax.set_xlim(0, pz[col].max() * 1.18)
     ax.set_xlabel("Naira for 1 kg each of rice, beans and garri (July 2026)")
-    ax.set_title("The same plate costs 25% more in the South South than the North West")
+    ax.set_title("Cost of a plate of rice, beans and garri, by zone")
     ax.tick_params(axis="y", length=0)
     _save(fig, out / "plate_by_zone.png")
 

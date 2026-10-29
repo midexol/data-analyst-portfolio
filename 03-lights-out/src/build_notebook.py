@@ -67,7 +67,7 @@ ax.text(np.log10(ng24), ax.get_ylim()[1] * 0.92, f"  Nigeria: {ng24:.0f} kWh", c
 ax.set_xticks([1, 2, 3, 4, 5], ["10", "100", "1,000", "10,000", "100,000"])
 ax.set_xlabel("Grid electricity per person, 2024 (kWh, log scale)")
 ax.set_ylabel("Countries")
-ax.set_title("Most countries get far more than Nigeria")
+ax.set_title("Grid electricity per person by country, 2024")
 plt.show()
 print(f"Nigeria is lower than {(y24.per_capita_electricity > ng24).mean():.0%} of countries")"""),
     md("""## Is that just because Nigeria isn't rich?
@@ -96,7 +96,7 @@ ax.xaxis.set_major_formatter(FuncFormatter(lambda v, _: f"${v:,.0f}"))
 ax.yaxis.set_major_formatter(FuncFormatter(lambda v, _: f"{v:,.0f}"))
 ax.set_xlabel("Income per person, 2022 (international $, 2011 prices, log scale)")
 ax.set_ylabel("Grid electricity per person (kWh, log scale)")
-ax.set_title("Same income as Bangladesh, a quarter of the power")
+ax.set_title("Income vs electricity per person, 2022")
 fig.tight_layout()
 fig.savefig("../charts/income_vs_power.png", dpi=160)
 plt.show()
