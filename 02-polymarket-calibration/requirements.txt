@@ -1,5 +1,5 @@
+pymysql==1.1.1
+SQLAlchemy==2.1.6
 pandas==3.0.5
-numpy>=2.0
 matplotlib==3.11.2
-pyarrow>=17
 requests>=2.32

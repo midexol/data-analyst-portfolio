@@ -1,0 +1,18 @@
+{
+  "markets": 1890,
+  "forecasts": 4894,
+  "pct_forecasts_under_10": 66.2,
+  "same_markets_all_horizons": 1347,
+  "brier_30_days": 0.0744,
+  "brier_7_days": 0.0515,
+  "brier_1_day": 0.038,
+  "underdog_forecasts": 593,
+  "underdog_price_pct": 23.3,
+  "underdog_happened_pct": 34.7,
+  "brier_close_calls_by_topic": {
+    "economy": 0.1465,
+    "crypto": 0.1912,
+    "sports": 0.1899,
+    "politics": 0.249
+  }
+}

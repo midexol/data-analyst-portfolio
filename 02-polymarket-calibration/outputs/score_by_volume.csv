@@ -1,0 +1,3 @@
+market_size,markets,median_volume_m_usd,brier,brier_unsure_markets
+Less money than the median,945,2.2,0.061,0.191
+More money than the median,945,18.0,0.0725,0.2002
