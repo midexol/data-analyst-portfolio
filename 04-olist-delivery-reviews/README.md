@@ -1,21 +1,19 @@
-# Late Parcels, Low Stars
+# How late deliveries affect reviews and repeat orders
 
-We've all waited on a parcel that said "arriving today" and didn't. You check the tracking, you check it again, and by the time it shows up you're not in a generous mood.
+I used **96,203** orders from Olist, a Brazilian online marketplace, to answer three questions: how much does a late delivery hurt the review, does it stop people ordering again, and where do late deliveries come from?
 
-I wanted to know what that moment costs the store. So I went through **96,203** orders from Olist, a Brazilian online marketplace, and asked three things: how much does a late delivery hurt the review, does it cost the next sale too, and where do late deliveries come from?
+**Summary:**
 
-**The short version:**
-
-- On-time orders average **4.28** stars. Late ones average **2.26**.
+- Orders that arrived on time averaged **4.28** stars out of 5. Late ones averaged **2.26**.
 - First-time buyers whose order came late were **25% less likely** to order again.
-- The problem is concentrated. Just **98 of 2,945** sellers cause half of all late orders.
+- Just **98 of 2,945** sellers caused half of all late orders.
 
 **Tools:** SQL (MySQL), Python (pandas, SciPy, matplotlib)
 **Data:** [Olist Brazilian E-Commerce dataset](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce), 96,203 delivered orders from January 2017 to August 2018
 
 ## What I found
 
-### People forgive a lot, but not lateness
+### Reviews by days late
 
 ![Average review by delivery delay](charts/reviews_by_delay.png)
 
@@ -31,7 +29,7 @@ It doesn't take much. Even one to three days late more than triples the share of
 
 To make sure this wasn't luck, I ran a Mann-Whitney U test on the review scores. The gap between on-time and late orders is real (p < 0.001) and large (rank-biserial correlation of 0.64).
 
-### A late first order costs the next sale too
+### Repeat orders after a late first delivery
 
 ![Repeat purchase by first experience](charts/repeat_by_first_experience.png)
 
@@ -39,7 +37,7 @@ I looked at customers whose first order was before March 2018, so everyone had a
 
 Not many people order twice on Olist anyway, so these are small numbers. But the cost stacks up: a late order loses you the good review and makes the next order less likely.
 
-### Late orders come from a few places
+### Where late deliveries come from
 
 ![Late rate by month](charts/late_rate_by_month.png)
 
@@ -49,15 +47,15 @@ Not many people order twice on Olist anyway, so these are small numbers. But the
 
 ![Late rate by state](charts/late_rate_by_state.png)
 
-### A small group brings in most of the money
+### Customer segments
 
 ![RFM segments](charts/rfm_customers_vs_revenue.png)
 
 The top quarter of customers by spend make up 23% of customers but bring in 55% of the revenue. Only 2.9% of customers have ever ordered more than once, so there isn't really a loyal crowd to protect yet. The bigger win is getting a second order out of people who spent big the first time.
 
-## What I'd do
+## What the store should do
 
-The good news is that this is a small, findable problem, not a broken delivery network.
+So the problem is concentrated in a small number of sellers, not spread across the whole delivery network.
 
 1. **Get the first order right.** Promise first-time buyers a date two or three days later than usual, one you know you can hit. A slightly longer wait costs less than a 1-star review and a customer who never comes back.
 2. **Watch the worst sellers.** About 100 sellers cause half the late orders. A monthly on-time scorecard for them would do more than trying to fix everyone.

@@ -8,50 +8,46 @@ Every project here uses public data, so you can rerun my work and check every nu
 
 | Project | The question | Tools |
 | --- | --- | --- |
-| [Lights Out](03-lights-out/) | Why does Nigeria have so little grid power? | SQL, Python, Jupyter |
-| [Naira on the Plate](01-nigeria-food-prices/) | Is food in Nigeria really getting cheaper? | SQL, Excel, Python |
-| [Do Prediction Markets Know?](02-polymarket-calibration/) | When Polymarket says 70%, does it happen? | SQL, Python |
-| [Late Parcels, Low Stars](04-olist-delivery-reviews/) | What does a late parcel cost a store? | SQL, Python |
+| [Electricity in Nigeria compared with similar countries](03-lights-out/) | Why does Nigeria get so little grid power? | SQL, Python, Jupyter |
+| [Food prices in Nigeria, 2019 to 2026](01-nigeria-food-prices/) | How much did food prices rise, and are they coming down? | SQL, Excel, Python |
+| [How accurate Polymarket predictions are](02-polymarket-calibration/) | When Polymarket says 70%, does it happen 70% of the time? | SQL, Python |
+| [How late deliveries affect reviews and repeat orders](04-olist-delivery-reviews/) | What does a late delivery cost an online store? | SQL, Python |
 
 All the SQL runs in MySQL.
 
-## In short
+## Summaries
 
-### Lights Out
+### Electricity in Nigeria compared with similar countries
 
-In 2000, Nigeria and Bangladesh both made about 117 kWh of grid power per person. By 2024, Bangladesh made 586 and Nigeria made 161. In 2022 the two had about the same income per person, so being poorer doesn't explain the gap. Countries at that income make about 620 kWh per person. Nigeria makes about a quarter of that.
+In 2000, the average person in Nigeria and the average person in Bangladesh got about the same amount of grid electricity. By 2024, someone in Bangladesh got more than three times as much. It isn't because Nigeria is poorer: in 2022 the two countries had about the same income per person, and countries at that income usually get about four times the power Nigeria does.
 
 ![Grid electricity per person, 2000 to 2024](03-lights-out/charts/nigeria_vs_bangladesh.png)
 
-[Read the full write-up](03-lights-out/), or see the [exploration notebook](03-lights-out/notebooks/explore.ipynb).
+[Read the write-up](03-lights-out/), or see the [exploration notebook](03-lights-out/notebooks/explore.ipynb).
 
-### Do Prediction Markets Know?
+### Food prices in Nigeria, 2019 to 2026
 
-I scored 1,890 settled Polymarket markets. The prices were mostly right, and got sharper close to the end. The exception is underdogs: bets priced at 10 to 40% came true 35% of the time, not the 23% the price suggested.
+At the peak, in June 2024, food cost more than twice what it did a year earlier. Prices have been falling since August 2025, but they're still about 2.5 times what they were in early 2023. Rice, beans and garri are about 35% below their highest price. Meat, eggs and milk are only 4% below.
+
+![Staples vs meat, eggs and milk](01-nigeria-food-prices/charts/grains_vs_protein.png)
+
+[Read the write-up](01-nigeria-food-prices/), or open the [Excel workbook](01-nigeria-food-prices/excel/naira_on_the_plate.xlsx) and pick any food to see its price since 2019.
+
+### How accurate Polymarket predictions are
+
+I checked 1,890 settled Polymarket markets. The odds were mostly right, and got more accurate closer to the event. The exception is underdogs: bets priced at 10 to 40% came true 35% of the time, not the 23% the odds suggested.
 
 ![Market price vs how often YES happened](02-polymarket-calibration/charts/calibration.png)
 
-[Read the full write-up](02-polymarket-calibration/).
+[Read the write-up](02-polymarket-calibration/).
 
-### Naira on the Plate
+### How late deliveries affect reviews and repeat orders
 
-In January 2023, a 2.5 kg bag of beans cost about ₦1,078. By September 2024 it was ₦4,597. I used the World Bank's price data for 68 Nigerian markets to see the whole story.
+Using 96,203 orders from Olist, a Brazilian online marketplace: orders that arrived on time averaged 4.28 stars out of 5, and late ones averaged 2.26. First-time buyers whose order came late were 25% less likely to order again. Just 98 of 2,945 sellers caused half of all late orders.
 
-At the worst point, in June 2024, food prices were rising 112% a year. Since August 2025 they've been falling, but they're still about 2.5x what they were in early 2023. And the fall isn't even. Staples like rice, beans and garri are about 35% off their peak. Meat, eggs and milk are only 4% off theirs.
+![Average review score by days late](04-olist-delivery-reviews/charts/reviews_by_delay.png)
 
-![Grains vs protein](01-nigeria-food-prices/charts/grains_vs_protein.png)
-
-[Read the full story](01-nigeria-food-prices/), or open the [Excel version](01-nigeria-food-prices/excel/naira_on_the_plate.xlsx) and pick any food to see its price since 2019.
-
-### Late Parcels, Low Stars
-
-We've all waited on a parcel that said "arriving today" and didn't. I went through 96,203 orders from Olist, a Brazilian marketplace, to see what that costs the store.
-
-On-time orders average 4.28 stars. Late ones average 2.26. First-time buyers whose order came late were 25% less likely to order again. The good news is the problem is easy to find: just 98 of 2,945 sellers cause half of all late orders.
-
-![Average review by delivery delay](04-olist-delivery-reviews/charts/reviews_by_delay.png)
-
-[Read the full story](04-olist-delivery-reviews/).
+[Read the write-up](04-olist-delivery-reviews/).
 
 ## How each project is laid out
 
@@ -63,6 +59,6 @@ On-time orders average 4.28 stars. Late ones average 2.26. First-time buyers who
 
 Raw data isn't saved in the repo. Each project tells you where to get it.
 
-## Say hi
+## Contact
 
 Email is the fastest way to reach me: okunolaolamide7@gmail.com

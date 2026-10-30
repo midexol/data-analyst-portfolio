@@ -1,20 +1,22 @@
-# Naira on the Plate
+# Food prices in Nigeria, 2019 to 2026
 
-In January 2023, a 2.5 kg bag of beans cost about **₦1,078**. By September 2024 it cost **₦4,597**. For the last two years, food prices are what everyone around me has talked about. So I went to the data to answer three things: how bad did it get, is it really getting better, and is it the same everywhere?
+Food in Nigeria got very expensive in 2023 and 2024. In January 2023, a 2.5 kg bag of beans cost about **₦1,078**. By September 2024 it cost **₦4,597**.
 
-**The short version:**
+I used World Bank data to answer three questions: how much did prices rise, are they coming down now, and is it the same across the country?
 
-- At the worst point, in **June 2024**, food prices were rising **112%** a year.
-- Since **August 2025** they've been falling, but they're still about **2.5x** what they were in January 2023.
-- The fall isn't even. Staples like rice, beans and garri are about **35%** off their peak. Meat, eggs and milk are only **4%** off theirs.
-- Where you live matters. The same basic plate costs **25% more** in the South South than in the North West.
+**Summary:**
+
+- At the peak, in **June 2024**, food cost **112%** more than a year earlier.
+- Prices have been falling since **August 2025**, but they're still about **2.5x** what they were in January 2023.
+- Rice, beans and garri are about **35%** below their highest price. Meat, eggs and milk are only **4%** below.
+- The same plate of rice, beans and garri costs **25% more** in the South South than in the North West.
 
 **Tools:** SQL (MySQL), Excel, Python (pandas, matplotlib)
 **Data:** World Bank, [Monthly food price estimates by product and market, Nigeria](https://microdata.worldbank.org/catalog/4503). 68 markets, monthly, January 2019 to July 2026.
 
 ## What I found
 
-### Prices more than doubled, then started to fall
+### Food price inflation
 
 ![Food inflation](charts/food_inflation.png)
 
@@ -22,9 +24,9 @@ Food was already getting 15 to 33% more expensive every year through 2021 and 20
 
 It cooled down fast through 2025. In August 2025 the line crossed zero, which means food is now a little cheaper than it was a year earlier (4.9% cheaper in July 2026).
 
-That's good news, but it's not the whole story. Food is still 2.52 times what it cost in January 2023. Prices coming down slowly from a very high place is not the same as food being cheap.
+But food still costs 2.52 times what it did in January 2023. Prices are falling, but they're still far higher than before.
 
-### Staples came back down. Protein didn't.
+### Staples vs meat, eggs and milk
 
 ![Grains vs protein](charts/grains_vs_protein.png)
 
@@ -49,7 +51,7 @@ Beans now cost half what they did at their peak. Maize, sorghum and millet are d
 
 Every food is in [`outputs/commodity_change.csv`](outputs/commodity_change.csv).
 
-### The south is paying more now
+### Prices by region
 
 ![Plate cost by zone](charts/plate_by_zone.png)
 

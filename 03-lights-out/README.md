@@ -1,23 +1,21 @@
-# Lights Out
+# Electricity in Nigeria compared with similar countries
 
-In 2000, Nigeria and Bangladesh were almost twins. Both had about 130 million people, and both made about **117 kWh** of grid electricity per person a year. That's enough to run one fridge for a few months.
+In 2000, the average person in Nigeria and the average person in Bangladesh got about the same amount of electricity from the national grid, about **117 kWh** a year. By 2024, someone in Bangladesh got **586 kWh** and someone in Nigeria got **161**.
 
-By 2024, Bangladesh made **586 kWh** per person. Nigeria made **161**.
+I wanted to know why, and whether it's just because Nigeria is poorer.
 
-Anyone who has lived in Nigeria knows the sound of the generator coming on. I wanted to see how far behind we really are, and whether it's just because we're a poorer country or something else.
+**Summary:**
 
-**The short version:**
-
-- Since 2000, Bangladesh's electricity per person grew **about 5x**. Nigeria's grew **1.4x**.
-- Ethiopia started at a fifth of Nigeria's level and has **passed us**.
-- Nigeria does make more power than in 2000, about **2.5x more**. But the population grew **1.8x**, so most of the gain disappears.
-- Countries with Nigeria's income usually make about **620 kWh** per person. Nigeria makes about **a quarter of that**, which puts it 6th lowest of 154 countries.
-- In 2024, among the 49 countries with 30 million+ people, only 6 had less grid power per person than Nigeria.
+- Since 2000, grid electricity per person grew **about 5x** in Bangladesh and **1.4x** in Nigeria.
+- Ethiopia started at a fifth of Nigeria's level and is now ahead of it.
+- Nigeria makes about **2.5x** more power than in 2000, but its population grew **1.8x**, so each person only gets a little more.
+- Countries with Nigeria's income usually make about **620 kWh** per person. Nigeria makes about **a quarter of that**, the 6th lowest of 154 countries.
+- In 2024, among the 49 countries with over 30 million people, only 6 had less grid power per person than Nigeria.
 
 **Tools:** SQL (MySQL), Python (pandas, matplotlib), Jupyter
 **Data:** [Our World in Data energy dataset](https://github.com/owid/energy-data), which draws on Ember and the Energy Institute. 220 countries, 2000 to 2024.
 
-## I explored before I asked
+## Exploring the data first
 
 This project started with an exploration notebook, [`notebooks/explore.ipynb`](notebooks/explore.ipynb), before I knew what question I wanted to answer. I looked at what a row means, how far back Nigeria's data goes, how complete each year is, and where Nigeria sits among all countries.
 
@@ -31,7 +29,7 @@ In 2022, Nigeria and Bangladesh had almost the same income per person (about $5,
 
 ## What I found
 
-### Started level, ended far apart
+### Nigeria and Bangladesh, 2000 to 2024
 
 ![Nigeria vs Bangladesh](charts/nigeria_vs_bangladesh.png)
 
@@ -46,7 +44,7 @@ In 2022, Nigeria and Bangladesh had almost the same income per person (about $5,
 
 On average, Bangladesh grew its electricity per person by about 7% a year for 24 years. Nigeria managed 1.4%. Vietnam isn't on the chart because it would squash everything else: it went from about three times Nigeria's level to almost **19 times**.
 
-### More power, more people
+### Power supply vs population growth
 
 ![More power, more people](charts/more_power_more_people.png)
 
@@ -54,7 +52,7 @@ Nigeria isn't standing still. It made **2.5 times** as much grid electricity in 
 
 And it doesn't rise smoothly. Generation fell in 10 of those 24 years: 2003, every year from 2005 to 2009, and in 2017, 2019, 2022 and 2024.
 
-### Where the power comes from
+### Sources of Nigeria's electricity
 
 ![Power mix](charts/power_mix.png)
 
@@ -62,7 +60,7 @@ About **three quarters** of Nigeria's grid power comes from gas and a quarter fr
 
 Nigeria also **sells** some of its power. Since 2016 it has exported about **7%** of what it makes each year. So Nigerians use even less than the per-person number suggests.
 
-### Near the bottom of the world
+### Nigeria's rank among large countries
 
 ![Lowest countries](charts/lowest_countries.png)
 

@@ -1,23 +1,21 @@
-# Do Prediction Markets Know?
+# How accurate Polymarket predictions are
 
-On Polymarket, people bet real money on elections, football matches, crypto prices and the Fed. The price works like a forecast. If "yes" costs 70 cents, the crowd is saying there's a 70% chance it happens.
+On Polymarket, people bet real money on things like elections, football matches and crypto prices. The price of a bet works like a prediction. If "yes" costs 70 cents, the crowd is saying there's a 70% chance it happens.
 
-So when the crowd says 70%, does it happen about 70% of the time?
+I checked whether those odds are actually right: when the crowd says 70%, does it happen about 70% of the time?
 
-I've built trading bots for these markets, so I've always wanted to know how much to trust the price.
+**Summary:**
 
-**The short version:**
-
-- **Mostly, yes.** Across 1,890 settled markets, the prices were close to what actually happened.
-- **The crowd gets sharper as the end gets closer.** On the same 1,347 markets, the error score fell from **0.074** a month out to **0.038** the day before.
-- **But it underrates underdogs.** Bets priced between 10% and 40% came true **35%** of the time, when the price said about **23%**.
-- **Economy markets are the most accurate. Politics is the least.** On the genuinely close calls, politics markets did barely better than saying 50% every time.
-- **More money didn't mean better forecasts.** The bigger markets were slightly *less* accurate, probably because they're about harder questions.
+- **Mostly, yes.** Across 1,890 settled markets, the odds were close to what actually happened.
+- **Predictions get more accurate closer to the event.** On the same 1,347 markets, the error score fell from **0.074** a month before to **0.038** the day before. Lower is better.
+- **Underdogs are underrated.** Bets priced between 10% and 40% came true **35%** of the time, when the odds said about **23%**.
+- **Economy questions were the most accurate, politics the least.** On close political races, the crowd did about as well as flipping a coin.
+- **Markets with more money in them weren't more accurate.** They were slightly less accurate, probably because they cover harder questions.
 
 **Tools:** SQL (MySQL), Python (requests, pandas, matplotlib)
 **Data:** Polymarket's public APIs, no key needed. The 500 biggest settled Yes/No markets in each of four topics: economy, crypto, sports and politics.
 
-## How I scored the crowd
+## How I measured accuracy
 
 For each market I took the price of "yes" at three points: 30 days, 7 days and 1 day before it ended. Then I checked what actually happened.
 
@@ -28,7 +26,7 @@ Two ways to check:
 
 ## What I found
 
-### The crowd is mostly right
+### Predicted odds vs what happened
 
 ![Calibration](charts/calibration.png)
 
@@ -36,13 +34,13 @@ The dots should sit on the dashed line, and most of them do. Things priced at 90
 
 Two in three forecasts were under 10%. That's because many Polymarket questions come in groups, like "Will X be the next Prime Minister?" for ten different people. Most of those people have no real chance, and the crowd knows it.
 
-### It gets sharper close to the end
+### Accuracy by days before the event
 
-![Closer is sharper](charts/closer_is_sharper.png)
+![Accuracy by days before the event](charts/closer_is_sharper.png)
 
 I only compared markets that were open for all three dates, so each bar scores the exact same 1,347 questions. A month out, the score is 0.074. The day before, it's 0.038, about half.
 
-### But it underrates underdogs
+### Underdogs
 
 ![Underdogs](charts/underdogs.png)
 
@@ -60,7 +58,7 @@ Could that just be luck? The 593 forecasts above include the same market at diff
 
 People are often told that bettors overpay for long shots. In this data it's the other way round, at least for the 10 to 40% range.
 
-### Some topics are easier than others
+### Accuracy by topic
 
 ![By topic](charts/by_topic.png)
 
@@ -68,7 +66,7 @@ Scoring every market makes everything look great, because so many are easy calls
 
 Economy markets (Fed decisions, inflation numbers, company sizes) did best. Politics did worst, at 0.249 against 0.25 for a coin flip. Wars, ceasefires and leaders leaving office are hard to call, even with millions of dollars on them.
 
-### The biggest upsets
+### Biggest misses
 
 The full list is in [`upsets.csv`](outputs/upsets.csv). A few from the day before the end:
 
