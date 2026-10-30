@@ -1,4 +1,4 @@
-"""Run the Lights Out analysis.
+"""Run the electricity analysis.
 
 Usage (from the project folder):
     bash src/get_data.sh        # once, downloads the data

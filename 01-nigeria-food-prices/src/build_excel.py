@@ -1,4 +1,4 @@
-"""Build the Excel version of Naira on the Plate.
+"""Build the Excel version of the food prices analysis.
 
 Usage (from the project folder, after putting the World Bank CSV in data/raw/):
     python src/build_excel.py
@@ -277,7 +277,7 @@ def build(df: pd.DataFrame, source: str) -> Path:
     ws_r.column_dimensions["A"].width = 22
     ws_r.column_dimensions["B"].width = 90
     rows = [
-        ("Naira on the Plate", None),
+        ("Food prices in Nigeria", None),
         ("Nigerian food prices, Jan 2019 to Jul 2026, national average across 68 markets.", None),
         (None, None),
         ("Sheet", "What it shows"),

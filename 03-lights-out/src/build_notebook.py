@@ -12,7 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 md, code = nbf.v4.new_markdown_cell, nbf.v4.new_code_cell
 
 cells = [
-    md("""# Lights Out: exploring the data first
+    md("""# Electricity in Nigeria: exploring the data first
 
 Before asking any big question, I wanted to get to know this dataset. What's in it, what's missing, and is there anything strange about Nigeria that's worth digging into?
 
